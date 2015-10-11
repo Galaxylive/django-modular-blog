@@ -56,3 +56,6 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Locally modifiable files
+modularblog/modularblog/local_settings.py
