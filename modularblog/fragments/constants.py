@@ -2,6 +2,14 @@
 Values that are used throughout the app
 """
 
+FRAGMENT_TYPE_PLAINTEXT = 'plaintext'
+FRAGMENT_TYPE_HTML = 'html'
+FRAGMENT_TYPE_MARKDOWN = 'markdown'
+FRAGMENT_TYPE_IMAGE = 'image'
+FRAGMENT_TYPE_CODE = 'code'
+FRAGMENT_TYPE_EMBED = 'embed'
+
+
 CODE_LANGUAGE_GENERIC = 'generic'
 CODE_LANGUAGE_PYTHON = 'python'
 CODE_LANGUAGE_BASH = 'bash'

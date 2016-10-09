@@ -11,7 +11,6 @@ from fragments import constants
 from organizations.models import Organization
 
 
-
 class Post(models.Model):
     """
     The primary entity that connects different components
@@ -28,7 +27,7 @@ class Post(models.Model):
         return self.title
 
 
-class BaseFragment(models.Model):
+class Fragment(models.Model):
     """
     Base definition of different components of the post
     """
@@ -37,50 +36,52 @@ class BaseFragment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        abstract = True
-
     def __unicode__(self):
         return '{} fragment of post: {}'.format(
-            self.get_fragment_type_display(),
+            self.fragment_type,
             self.post)
 
 
-class PlainTextFragment(models.Model):
+class PlainTextFragment(Fragment):
     """
     A section of the post that only contains plain text
     """
+    fragment_type = models.TextField(default=constants.FRAGMENT_TYPE_PLAINTEXT)
     post = models.ForeignKey(Post, related_name='plain_text_fragments')
 
 
-class HTMLFragment(models.Model):
+class HTMLFragment(Fragment):
     """
     A section of the post that contains HTML
     """
+    fragment_type = models.TextField(default=constants.FRAGMENT_TYPE_HTML)
     post = models.ForeignKey(Post, related_name='html_fragments')
     is_sanitized = models.BooleanField(default=False)
 
 
-class MarkdownFragment(models.Model):
+class MarkdownFragment(Fragment):
     """
     A section of the post that contains HTML
     """
+    fragment_type = models.TextField(default=constants.FRAGMENT_TYPE_MARKDOWN)
     post = models.ForeignKey(Post, related_name='markdown_fragments')
 
 
-class ImageFragment(models.Model):
+class ImageFragment(Fragment):
     """
     A section of the post that contains HTML
     """
+    fragment_type = models.TextField(default=constants.FRAGMENT_TYPE_IMAGE)
     post = models.ForeignKey(Post, related_name='image_fragments')
     credit = models.TextField(blank=True)
     caption = models.TextField(blank=True)
 
 
-class CodeFragment(models.Model):
+class CodeFragment(Fragment):
     """
     A section of the post that contains HTML
     """
+    fragment_type = models.TextField(default=constants.FRAGMENT_TYPE_CODE)
     post = models.ForeignKey(Post, related_name='code_fragments')
     caption = models.TextField(blank=True)
     language = models.TextField(
@@ -88,10 +89,11 @@ class CodeFragment(models.Model):
         default=constants.CODE_LANGUAGE_GENERIC)
 
 
-class EmbedFragment(models.Model):
+class EmbedFragment(Fragment):
     """
     A section of the post that contains HTML
     """
+    fragment_type = models.TextField(default=constants.FRAGMENT_TYPE_EMBED)
     post = models.ForeignKey(Post, related_name='embed_fragments')
     caption = models.TextField(blank=True)
     embed_type = models.TextField(
