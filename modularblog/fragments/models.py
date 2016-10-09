@@ -73,6 +73,7 @@ class ImageFragment(models.Model):
     A section of the post that contains HTML
     """
     post = models.ForeignKey(Post, related_name='image_fragments')
+    credit = models.TextField(blank=True)
     caption = models.TextField(blank=True)
 
 
@@ -81,6 +82,7 @@ class CodeFragment(models.Model):
     A section of the post that contains HTML
     """
     post = models.ForeignKey(Post, related_name='code_fragments')
+    caption = models.TextField(blank=True)
     language = models.TextField(
         choices=constants.CODE_LANGUAGE_CHOICES,
         default=constants.CODE_LANGUAGE_GENERIC)
@@ -91,6 +93,7 @@ class EmbedFragment(models.Model):
     A section of the post that contains HTML
     """
     post = models.ForeignKey(Post, related_name='embed_fragments')
+    caption = models.TextField(blank=True)
     embed_type = models.TextField(
         choices=constants.EMBED_TYPE_CHOICES,
         default=constants.EMBED_TYPE_RAW)
