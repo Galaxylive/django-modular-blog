@@ -10,7 +10,7 @@ class Organization(models.Model):
     """
     name = models.TextField()
     slug = models.TextField()
-    description = models.TextField()
+    description = models.TextField(blank=True)
     owner = models.ForeignKey(User, related_name='organizations')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
