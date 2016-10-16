@@ -1,3 +1,5 @@
+from django.utils.text import slugify
+
 from rest_framework import serializers
 
 from fragments.models import Post, Fragment
@@ -50,6 +52,9 @@ class PostSerializer(serializers.ModelSerializer):
             'created',
             'updated',
         )
+        extra_kwargs = {
+            'slug': {'required': False}
+        }
 
     def validate(self, attrs):
         author = attrs.get('author')
@@ -61,5 +66,10 @@ class PostSerializer(serializers.ModelSerializer):
                     'organization': 'Author is not part of organization: %s' % (
                         org.name)
                 })
+
+        title = attrs.get('title')
+        slug = attrs.get('slug')
+        if title and not slug:
+            attrs['slug'] = slugify(unicode(title))
 
         return attrs

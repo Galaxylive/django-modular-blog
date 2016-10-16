@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.text import slugify
 
 from fragments import constants
 from organizations.models import Organization

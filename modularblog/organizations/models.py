@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils.text import slugify
 
 from organizations import constants
 
@@ -20,12 +19,6 @@ class Organization(models.Model):
     def __unicode__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(unicode(self.name))
-
-        super(Organization, self).save(*args, **kwargs)
-
     def add_member(self, user, role=None):
         membership_data = {
             'org': self,
@@ -40,7 +33,7 @@ class Organization(models.Model):
         self.memberships.create(**membership_data)
 
     def is_member(self, user):
-        return self.membership.filter(user=user).exists()
+        return self.memberships.filter(user=user).exists()
 
 
 class Membership(models.Model):

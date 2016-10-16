@@ -1,5 +1,3 @@
-from django.db.models import Q
-
 from rest_framework import viewsets
 from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
@@ -64,15 +62,15 @@ class PostViewSet(BaseViewSet):
         post_data = request.data.copy()
         post_data.update({
             'author': request.user.pk,
-            'org': org
+            'org': org.pk
         })
 
         serializer = PostSerializer(data=post_data)
         if not serializer.is_valid():
-            return Response(serializer.errors, status_code=400)
+            return Response(serializer.errors, status=400)
 
         serializer.save()
-        return Response(serializer.data, status_code=200)
+        return Response(serializer.data, status=200)
 
     def partial_update(self, request, org_pk, pk):
         org = self._get_object_or_404(Organization, {'pk': org_pk})
@@ -83,10 +81,10 @@ class PostViewSet(BaseViewSet):
 
         serializer = PostSerializer(post, data=request.data, partial=True)
         if not serializer.is_valid():
-            return Response(serializer.errors, status_code=400)
+            return Response(serializer.errors, status=400)
 
         serializer.save()
-        return Response(serializer.data, status_code=200)
+        return Response(serializer.data, status=200)
 
 
 class FragmentViewset(BaseViewSet):
@@ -131,15 +129,15 @@ class FragmentViewset(BaseViewSet):
         fragment_data = request.data.copy()
         fragment_data.update({
             'post': post.pk,
-            'org': org
+            'org': org.pk
         })
 
         serializer = FragmentSerializer(data=fragment_data)
         if not serializer.is_valid():
-            return Response(serializer.errors, status_code=400)
+            return Response(serializer.errors, status=400)
 
         serializer.save()
-        return Response(serializer.data, status_code=200)
+        return Response(serializer.data, status=200)
 
     def partial_update(self, request, org_pk, post_pk, pk):
         org = self._get_object_or_404(Organization, {'pk': org_pk})
@@ -152,7 +150,7 @@ class FragmentViewset(BaseViewSet):
 
         serializer = PostSerializer(fragment, data=request.data, partial=True)
         if not serializer.is_valid():
-            return Response(serializer.errors, status_code=400)
+            return Response(serializer.errors, status=400)
 
         serializer.save()
-        return Response(serializer.data, status_code=200)
+        return Response(serializer.data, status=200)
