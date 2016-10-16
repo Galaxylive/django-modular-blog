@@ -48,3 +48,12 @@ EMBED_TYPE_CHOICES = (
     (EMBED_TYPE_TWEET, 'Tweet'),
     (EMBED_TYPE_INSTAGRAM, 'Instagram'),
 )
+
+POST_STATE_DRAFT = 'draft'
+POST_STATE_PUBLISHED = 'published'
+POST_STATE_ARCHIVED = 'archived'
+POST_STATE_CHOICES = (
+    (POST_STATE_DRAFT, 'Draft'),
+    (POST_STATE_PUBLISHED, 'Published'),
+    (POST_STATE_ARCHIVED, 'Archived'),
+)

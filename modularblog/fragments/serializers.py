@@ -3,27 +3,6 @@ from rest_framework import serializers
 from fragments.models import Post, Fragment
 
 
-class PostSerializer(serializers.ModelSerializer):
-    """
-    Serializer for Post instances
-    """
-    class Meta:
-        model = Post
-        fields = (
-            'title',
-            'slug',
-            'tldr',
-            'author',
-            'organization',
-            'created',
-            'updated',
-        )
-        read_only_field = (
-            'created',
-            'updated',
-        )
-
-
 class FragmentSerializer(serializers.ModelSerializer):
     """
     Serializer for Fragment instances
@@ -47,3 +26,40 @@ class FragmentSerializer(serializers.ModelSerializer):
             'created',
             'updated',
         )
+
+
+class PostSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Post instances
+    """
+    fragments = FragmentSerializer(many=True, required=False)
+
+    class Meta:
+        model = Post
+        fields = (
+            'title',
+            'slug',
+            'tldr',
+            'author',
+            'fragments',
+            'org',
+            'created',
+            'updated',
+        )
+        read_only_field = (
+            'created',
+            'updated',
+        )
+
+    def validate(self, attrs):
+        author = attrs.get('author')
+        org = attrs.get('org')
+
+        if author and org:
+            if not org.is_member(author):
+                raise serializers.ValidationError({
+                    'organization': 'Author is not part of organization: %s' % (
+                        org.name)
+                })
+
+        return attrs
