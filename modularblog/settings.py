@@ -32,6 +32,9 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'fragments',
     'organizations',
+    # 3rd party
+    'django_extensions',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

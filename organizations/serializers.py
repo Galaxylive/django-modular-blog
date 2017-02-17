@@ -15,7 +15,6 @@ class OrgSerializer(serializers.ModelSerializer):
             'name',
             'slug',
             'description',
-            'owner',
             'created',
             'updated',
         )
